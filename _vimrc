@@ -1,7 +1,10 @@
-set nocompatible               " turns off legacy vi mode
-filetype off                   " required!
+" set nocompatible             " shouldn't be needed on user config
 
-" Install bundles
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Install bundles using vundle. Run using :BundleInstall
+" You need to install vundle manually before this works.
+
+filetype off                   " required!
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
@@ -18,23 +21,31 @@ Bundle 'Davlind/conque'
 
 filetype plugin indent on      " required!
 
-" Enable line numbers
-set number
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Configure NERDTree
 
-" set shell=powershell
-" set shellcmdflag=-command
-
-" Enable Nerd Tree by default
+" Start NERDTree automatically when Vim starts
 autocmd vimenter * NERDTree
 
-" Close vim when nerd tree is the only open window
+" Close vim when NERDTree is the only open window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-" Fix syntax stuff
-set nobackup
-syntax enable
-set ignorecase
-set smartcase
+" Make NERDTree open in current directory
+set autochdir
+let NERDTreeChDirMode=2
+nnoremap <leader>n :NERDTree .<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Configure Conque plugin
+
+" Conque needs to know where Python is
+let g:ConqueTerm_PyExe = 'C:\tools\python2\python.exe'
+
+" Enable color in conque terminal
+let g:ConqueTerm_Color = 1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Colors and fonts
 
 " Get Molokai to look ok
 if !has("gui_running")
@@ -45,46 +56,47 @@ if !has("gui_running")
 	colorscheme Molokai
 endif
 
-" Make NerdTree opn in current directory
-set autochdir
-let NERDTreeChDirMode=2
-nnoremap <leader>n :NERDTree .<CR>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" User interface
 
-" Conque needs to know where Python is
-let g:ConqueTerm_PyExe = 'C:\tools\python2\python.exe'
+syntax enable                   " enable syntax highlighting
+let mapleader=","               " set a new leader key
+set nowrap                      " don't wrap lines
+set backspace=indent,eol,start  " makes backspace work over new lines
+set number                      " show line numbers
+set visualbell                  " show visual beep rather audio
+set noerrorbells                " stops it from whining ALL the time
+set showmatch                   " set show matching parenthesis
+set mouse=a                     " enable mouse support in all modes
+set history=500                 " history of commands and search history
+set undolevels=1000             " how many undos that are remembered
+set title                       " set title to file edited
 
-set hidden " hide buffer instead of closing
-set nowrap        " don't wrap lines
-set tabstop=2     " a tab is four spaces
-set backspace=indent,eol,start
-                    " allow backspacing over everything in insert mode
-set autoindent    " always set autoindenting on
-set copyindent    " copy the previous indentation on autoindenting
-set number        " always show line numbers
-set shiftwidth=2  " number of spaces to use for autoindenting
-set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
-set showmatch     " set show matching parenthesis
-set ignorecase    " ignore case when searching
-set smartcase     " ignore case if search pattern is all lowercase,
-                    "    case-sensitive otherwise
-set smarttab      " insert tabs on the start of a line according to
-                    "    shiftwidth, not tabstop
-set hlsearch      " highlight search terms
-set incsearch     " show search matches as you type
-
-set history=1000         " remember more commands and search history
-set undolevels=1000      " use many muchos levels of undo
+" ignore the following when expanding for files
 set wildignore=*.swp,*.bak,*.pyc,*.class
-set title                " change the terminal's title
-set visualbell           " don't beep
-set noerrorbells         " don't beep
 
-set nobackup
-set noswapfile
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Search
 
-set mouse=a
+set ignorecase                  " ignore case when searching
+set smartcase                   " dont ignore case when searching for capitals
+set hlsearch                    " highlight search terms
+set incsearch                   " show search matches as you type
 
-" remap : to . to avoid keystrokes
-nnoremap ; . 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Tabs and indents
 
-let g:ConqueTerm_Color = 1
+set tabstop=2                   " a tab equals x spaces
+set autoindent                  " auto indent new lines
+set copyindent                  " when autoindenting, copy previous indent
+set smarttab                    " insert tabs on the start of a line 
+set shiftround                  " round to multiples of shiftwidth
+set shiftwidth=2                " number of spaces to use for autoindenting
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Backups
+
+set nobackup                    " don't create backup files when overwriting
+set noswapfile                  " don't use temporary swap files
+
+nnoremap . :
