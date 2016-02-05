@@ -16,6 +16,7 @@ Bundle 'cd01/poshcomplete-vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'bling/vim-airline'
 Bundle 'Davlind/conque'
+Plugin 'elixir-lang/vim-elixir'
 
 filetype plugin indent on      " required!
 
